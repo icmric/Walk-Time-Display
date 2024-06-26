@@ -52,20 +52,31 @@ function convertTime(timeToConvert) {
 	}
 
 	var returnString = "";
+	var dayFlag = false;
 	// Days
 	if (timeToConvert >= 48) {
-		returnString = timeToConvert/24 + " days";
+		dayFlag = true;
+		returnString = Math.floor(timeToConvert/24) + " days";
+		timeToConvert = Math.floor(timeToConvert % 24);
+		if (timeToConvert > 0) { // Adds space if days AND hours
+			returnString += " ";
+		}
 	} else if (timeToConvert >= 24) {
-		returnString = timeToConvert/24 + " day";
-
-	} else if (timeToConvert > 0) {
+		dayFlag = true;
+		returnString = Math.floor(timeToConvert/24) + " day";
+		timeToConvert = Math.floor(timeToConvert % 24);
+		if (timeToConvert > 0) {
+			returnString += " ";
+		}
+	}
+	if (timeToConvert > 0 || dayFlag) {
 		// Hours
 		var hourFlag = false;
 		if (timeToConvert >= 1 && timeToConvert < 2) {
-			returnString = Math.floor(timeToConvert) + " h";
+			returnString += Math.floor(timeToConvert) + " h";
 			hourFlag = true;
 		} else if (timeToConvert >= 2) {
-			returnString = Math.floor(timeToConvert) + " hrs";
+			returnString += Math.floor(timeToConvert) + " hrs";
 			hourFlag = true;
 		}
 
