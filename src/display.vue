@@ -11,25 +11,34 @@ export default {
 		},
 	},
 	setup(props) {
+		// Main funciton that manages everything
 		function testString() {
-			var inputString = props.value.replace(/\s/g, '');
+			var inputString = props.value.replace(/\s/g, ''); // Removes all spaces
 			var inputTimeArray = inputString.split(",");
-			for (var i = 0; i < inputTimeArray.length; i++) {
+
+			for (var i = 0; i < inputTimeArray.length; i++) { // Converts inputs into floats
 				inputTimeArray[i] = parseFloat(inputTimeArray[i]);
 			}
+
 			inputTimeArray.sort((a, b) => a - b);
 			var returnTimeString = "";
-			for (var i = 0; i < inputTimeArray.length; i++) {
-				if (i == 2) {
-					//returnTimeString.slice(0, -2);
-					returnTimeString += " to "
+			for (var i = 0; i < inputTimeArray.length; i++) { // Loops over times and converts them to updated format
+				if (i == 2) { // Adds "to" between 2nd and 3rd time
+					returnTimeString += " to ";
 				}
- 				returnTimeString += convertTime(inputTimeArray[i]) + ", ";
+ 				
+				returnTimeString += convertTime(inputTimeArray[i]); // Converts time to updated format
+				
+				if (i == 0) { // Adds ", " between 1st and 2nd time
+					returnTimeString += ", ";
+				}
 			}
-			if (inputTimeArray.length != 3) {
+
+			if (inputTimeArray.length != 3) { // shows error if incorrect number of times entered
 				returnTimeString = inputTimeArray.length + " times entered, expected 3  ";
 			}
-			return returnTimeString.slice(0, -2);
+
+			return returnTimeString;
 		}
 
 		return testString;
@@ -37,12 +46,20 @@ export default {
 };
 
 function convertTime(timeToConvert) {
+	
+	if (isNaN(timeToConvert)) {
+		return "Invalid Input";
+	}
+
 	var returnString = "";
+	// Days
 	if (timeToConvert >= 48) {
 		returnString = timeToConvert/24 + " days";
 	} else if (timeToConvert >= 24) {
 		returnString = timeToConvert/24 + " day";
+
 	} else if (timeToConvert > 0) {
+		// Hours
 		var hourFlag = false;
 		if (timeToConvert >= 1 && timeToConvert < 2) {
 			returnString = Math.floor(timeToConvert) + " h";
@@ -52,6 +69,7 @@ function convertTime(timeToConvert) {
 			hourFlag = true;
 		}
 
+		// Minutes
 		var mins = (timeToConvert - Math.floor(timeToConvert)) * 60;
 		if (mins == 1) {
 			if (hourFlag) {
@@ -65,7 +83,8 @@ function convertTime(timeToConvert) {
 			returnString += Math.round(mins) + " mins";
 		}
 	} else {
-		returnString = "EMPTY"
+		// catch all if negative input 
+		returnString = "Negative Input";
 	}
 	return returnString;
 }
