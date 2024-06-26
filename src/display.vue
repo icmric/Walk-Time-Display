@@ -12,11 +12,19 @@ export default {
 	},
 	setup(props) {
 		function testString() {
-			var inputTimeArray = props.value.split(",");
-			inputTimeArray.sort();
+			var inputString = props.value.replace(/\s/g, '');
+			var inputTimeArray = inputString.split(",");
+			for (var i = 0; i < inputTimeArray.length; i++) {
+				inputTimeArray[i] = parseFloat(inputTimeArray[i]);
+			}
+			inputTimeArray.sort((a, b) => a - b);
 			var returnTimeString = "";
 			for (var i = 0; i < inputTimeArray.length; i++) {
-				returnTimeString += convertTime(inputTimeArray[i]) + ", ";
+				if (i == 2) {
+					//returnTimeString.slice(0, -2);
+					returnTimeString += " to "
+				}
+ 				returnTimeString += convertTime(inputTimeArray[i]) + ", ";
 			}
 			if (inputTimeArray.length != 3) {
 				returnTimeString = inputTimeArray.length + " times entered, expected 3  ";
@@ -36,10 +44,10 @@ function convertTime(timeToConvert) {
 		returnString = timeToConvert/24 + " day";
 	} else if (timeToConvert > 0) {
 		var hourFlag = false;
-		if (timeToConvert > 1 && timeToConvert < 2) {
+		if (timeToConvert >= 1 && timeToConvert < 2) {
 			returnString = Math.floor(timeToConvert) + " h";
 			hourFlag = true;
-		} else if (timeToConvert > 2) {
+		} else if (timeToConvert >= 2) {
 			returnString = Math.floor(timeToConvert) + " hrs";
 			hourFlag = true;
 		}
