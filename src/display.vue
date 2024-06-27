@@ -33,10 +33,11 @@ export default {
 					returnTimeString += ", ";
 				}
 			}
-
-			if (inputTimeArray.length != 3) { // shows error if incorrect number of times entered
-				returnTimeString = inputTimeArray.length + " times entered, expected 3  ";
-			}
+			
+			// if specific length is required, use below
+			// if (inputTimeArray.length != 3) { // shows error if incorrect number of times entered
+			// 	returnTimeString = inputTimeArray.length + " times entered, expected 3  ";
+			// }
 
 			return returnTimeString;
 		}
@@ -68,7 +69,7 @@ function convertTime(timeToConvert) {
 		if (timeToConvert > 0) {
 			returnString += " ";
 		}
-	}
+	} // to display days and no hours, change below if to else if
 	if (timeToConvert > 0 || dayFlag) {
 		// Hours
 		var hourFlag = false;
