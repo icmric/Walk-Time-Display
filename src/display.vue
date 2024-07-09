@@ -1,37 +1,35 @@
 <template>
-	<div>{{ testString() }}</div>
+	<div>{{ createDisplayString() }}</div>
 </template>
 
 <script>
 export default {
 	props: {
 		value: {
-			type: String,
-			default: "Time 1",
+			type: Array,
+			default: null,
 		},
 	},
 	setup(props) {
 		// Main funciton that manages everything
-		function testString() {
-			var inputString = props.value.replace(/\s/g, ''); // Removes all spaces
-			var inputTimeArray = inputString.split(",");
+		function createDisplayString() {
+			//var inputString = props.value //.replace(/\s/g, ''); // Removes all spaces
+			var inputTimeArray = [];
+			props.value.forEach((time) => {inputTimeArray.push(time)}); //= inputString.split(",");
 
 			for (var i = 0; i < inputTimeArray.length; i++) { // Converts inputs into floats
 				inputTimeArray[i] = parseFloat(inputTimeArray[i]);
 			}
 
-			inputTimeArray.sort((a, b) => a - b);
 			var returnTimeString = "";
 			for (var i = 0; i < inputTimeArray.length; i++) { // Loops over times and converts them to updated format
-				if (i == 2) { // Adds "to" between 2nd and 3rd time
+				if (i == inputTimeArray.length - 1 && inputTimeArray.length > 1) { // Adds "to" between 2nd and 3rd time
 					returnTimeString += " to ";
+				} else if (inputTimeArray.length > 2 && i != 0) {
+					returnTimeString += ", "; // Adds ", " between 1st and 2nd time
 				}
- 				
-				returnTimeString += convertTime(inputTimeArray[i]); // Converts time to updated format
 				
-				if (i == 0) { // Adds ", " between 1st and 2nd time
-					returnTimeString += ", ";
-				}
+				returnTimeString += convertTime(inputTimeArray[i]); // Converts time to updated format
 			}
 			
 			// if specific length is required, use below
@@ -42,7 +40,7 @@ export default {
 			return returnTimeString;
 		}
 
-		return testString;
+		return createDisplayString;
 	}
 };
 

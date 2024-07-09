@@ -7,5 +7,5 @@ export default {
 	description: 'Displays the time of a walk from an input json',
 	component: DisplayComponent,
 	options: null,
-	types: ['string', 'json'],
+	types: ['array', 'json'],
 };
